@@ -64,7 +64,21 @@ public:
       power_unknown_response_("{\"control\":{\"power\":{\"power_state\":{\"state\":\"unknown\"}}}}"),
     
       system_restart_request_("{\"control\":{\"system\":{\"system_action\":{\"action\":\"restart\"}}}}"),
-      system_stop_request_("{\"control\":{\"system\":{\"system_action\":{\"action\":\"stop\"}}}}") {
+      system_stop_request_("{\"control\":{\"system\":{\"system_action\":{\"action\":\"stop\"}}}}"),
+      system_request_("{\"control\":{\"system\":{\"get_system_info\":null}}}"),
+      system_response_
+      ("{\"control\":{\"system\":{\"system_info\":"
+       "{\"software_version\":\"control-0.0.0-11/29/2022\"},"
+       "{\"hardware_type\":\"home.control.outlet.plug.switch\"},"
+       "{\"hardware_model\":\"hcops1000us\"},"
+       "{\"hardware_version\":\"0.0.0-11/29/2022\"},"
+       "{\"device_id\":\"51904BC0-7265-11ED-9012-B1ED9D1D6E6A\"},"
+       "{\"hardware_id\":\"06A5FE38-7266-11ED-8662-D91BD5DF16AF\"},"
+       "{\"firmware_id\":\"4D579B3E-7266-11ED-895C-375E42C9F6CE\"},"
+       "{\"oem_id\":\"83F2BD72-7266-11ED-8160-73564D545C1A\"},"
+       "{\"ethernet_address\":\"00:00:00:00:00:00\"}},"
+       "{\"device_name\":\"home-control-outlet-plug-switch\"},"
+       "{\"device_alias\":\"home-control-outlet-plug-switch\"}}}}") {
     }
     virtual ~maint() {
     }
@@ -112,12 +126,18 @@ protected:
         return (string_t&)power_unknown_response_;
     }
 
-    /// ...system...request
+    /// ...system...
     virtual string_t& system_restart_request() const {
         return (string_t&)system_restart_request_;
     }
     virtual string_t& system_stop_request() const {
         return (string_t&)system_stop_request_;
+    }
+    virtual string_t& system_request() const {
+        return (string_t&)system_request_;
+    }
+    virtual string_t& system_response() const {
+        return (string_t&)system_response_;
     }
 
     /// ...power...
@@ -159,7 +179,7 @@ protected:
     bool power_on_, system_restart_, system_stop_;
     string_t power_on_request_, power_off_request_, power_request_;
     string_t power_on_response_, power_off_response_, power_unknown_response_;
-    string_t system_restart_request_, system_stop_request_;
+    string_t system_restart_request_, system_stop_request_, system_request_, system_response_;
 }; /// class maint
 typedef maint<> main;
 

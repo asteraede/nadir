@@ -131,6 +131,33 @@ protected:
         return err;
     }
 
+    /// ...prepare_system_response_from_request
+    virtual int prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        string_t &system_response = this->system_response();
+        response.assign(system_response);
+        return err;
+    }
+    virtual int before_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_system_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_system_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_system_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
     /// ...prepare_power_on_response_from_request
     virtual int prepare_power_on_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
         int err = 0;
@@ -256,7 +283,8 @@ protected:
                  &power_off_request = this->power_off_request(), 
                  &power_request = this->power_request(),
                  &system_restart_request = this->system_restart_request(),
-                 &system_stop_request = this->system_stop_request();
+                 &system_stop_request = this->system_stop_request(),
+                 &system_request = this->system_request();
 
         if (!(unequal = request.compare(power_request))) {
             if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
@@ -283,8 +311,14 @@ protected:
                             } else {
                             }
                         } else {
-                            if (!(err = all_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
+                            if (!(unequal = request.compare(system_request))) {
+                                if (!(err = all_prepare_system_response_from_request(response, request, argc, argv, env))) {
+                                } else {
+                                }
                             } else {
+                                if (!(err = all_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
+                                } else {
+                                }
                             }
                         }
                     }
