@@ -24,10 +24,59 @@
 #include "xos/app/console/protocol/home/control/base/main.hpp"
 #include "xos/app/console/server/main.hpp"
 
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPT "power-on"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG_RESULT 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG ""
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTUSE "power on"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_S "N"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_C 'N'
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTION \
+   {XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_C}, \
+
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPT "power-off"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG_RESULT 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG ""
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTUSE "power off"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_S "F"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_C 'F'
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTION \
+   {XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_C}, \
+
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPT "power"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_OPTIONAL
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_RESULT 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_ON "on"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_OFF "off"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG "[{ " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_ON " | " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_OFF " }]"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTUSE "power on/off or state"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_S "W::"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_C 'W'
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTION \
+   {XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_C}, \
+
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_OPTIONS_CHARS_EXTEND \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_S \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_S \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_S \
 
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_OPTIONS_OPTIONS_EXTEND \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTION \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTION \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTION \
 
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_OPTIONS_CHARS \
@@ -99,12 +148,143 @@ protected:
         return err;
     }
 
+    /// ...power_on_option...
+    virtual int on_set_power_on_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        this->set_power_on();
+        return err;
+    }
+    virtual int on_power_on_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        return err;
+    }
+    virtual int on_power_on_option
+    (int optval, const char_t* optarg, const char_t* optname,
+     int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_set_power_on_option(optarg, optind, argc, argv, env))) {
+            if (!(err = on_power_on_option_set(optarg, optind, argc, argv, env))) {
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual const char_t* power_on_option_usage(const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTUSE;
+        optarg = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTARG;
+        return chars;
+    }
+
+    /// ...power_off_option...
+    virtual int on_set_power_off_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        this->set_power_off();
+        return err;
+    }
+    virtual int on_power_off_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        return err;
+    }
+    virtual int on_power_off_option
+    (int optval, const char_t* optarg, const char_t* optname,
+     int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_set_power_off_option(optarg, optind, argc, argv, env))) {
+            if (!(err = on_power_off_option_set(optarg, optind, argc, argv, env))) {
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual const char_t* power_off_option_usage(const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTUSE;
+        optarg = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTARG;
+        return chars;
+    }
+
+    /// ...power_option...
+    virtual int on_set_power_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t opt(optarg);
+            int unequal = 0;
+            if (!(unequal = opt.uncased_compare
+                  (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_ON))) {
+                if (!(err = on_set_power_on_option(optarg, optind, argc, argv, env))) {
+                    if (!(err = on_power_on_option_set(optarg, optind, argc, argv, env))) {
+                    } else {
+                    }
+                } else {
+                }
+            } else {
+                if (!(unequal = opt.uncased_compare
+                      (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG_OFF))) {
+                    if (!(err = on_set_power_off_option(optarg, optind, argc, argv, env))) {
+                        if (!(err = on_power_off_option_set(optarg, optind, argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                    }
+                } else {
+                }
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual int on_power_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+        } else {
+        }
+        return err;
+    }
+    virtual int on_power_option
+    (int optval, const char_t* optarg, const char_t* optname,
+     int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            if (!(err = on_set_power_option(optarg, optind, argc, argv, env))) {
+                if (!(err = on_power_option_set(optarg, optind, argc, argv, env))) {
+                } else {
+                }
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual const char_t* power_option_usage(const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTUSE;
+        optarg = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTARG;
+        return chars;
+    }
+
     /// ...option...
     virtual int on_option
     (int optval, const char_t* optarg, const char_t* optname,
      int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         switch(optval) {
+
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_C:
+            err = this->on_power_on_option(optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_C:
+            err = this->on_power_off_option(optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_C:
+            err = this->on_power_option(optval, optarg, optname, optind, argc, argv, env);
+            break;
+
         default:
             err = extends::on_option(optval, optarg, optname, optind, argc, argv, env);
         }
@@ -113,6 +293,17 @@ protected:
     virtual const char_t* option_usage(const char_t*& optarg, const struct option* longopt) {
         const char_t* chars = "";
         switch(longopt->val) {
+
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_ON_OPTVAL_C:
+            chars = this->power_on_option_usage(optarg, longopt);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OFF_OPTVAL_C:
+            chars = this->power_off_option_usage(optarg, longopt);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_POWER_OPTVAL_C:
+            chars = this->power_option_usage(optarg, longopt);
+            break;
+
         default:
             chars = extends::option_usage(optarg, longopt);
             break;

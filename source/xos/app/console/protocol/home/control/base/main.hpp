@@ -61,7 +61,10 @@ public:
 
       power_on_response_("{\"control\":{\"power\":{\"power_state\":{\"state\":\"on\"}}}}"), 
       power_off_response_("{\"control\":{\"power\":{\"power_state\":{\"state\":\"off\"}}}}"),
-      power_unknown_response_("{\"control\":{\"power\":{\"power_state\":{\"state\":\"unknown\"}}}}") {
+      power_unknown_response_("{\"control\":{\"power\":{\"power_state\":{\"state\":\"unknown\"}}}}"),
+    
+      system_restart_request_("{\"control\":{\"system\":{\"system_action\":{\"action\":\"restart\"}}}}"),
+      system_stop_request_("{\"control\":{\"system\":{\"system_action\":{\"action\":\"stop\"}}}}") {
     }
     virtual ~maint() {
     }
@@ -109,6 +112,14 @@ protected:
         return (string_t&)power_unknown_response_;
     }
 
+    /// ...system...request
+    virtual string_t& system_restart_request() const {
+        return (string_t&)system_restart_request_;
+    }
+    virtual string_t& system_stop_request() const {
+        return (string_t&)system_stop_request_;
+    }
+
     /// ...power...
     virtual bool& set_power_off(const bool to = true) {
         bool& power_on = this->power_on();
@@ -124,10 +135,31 @@ protected:
         return (bool&)power_on_;
     }
 
+    /// ...system_restart...
+    virtual bool& set_system_restart(const bool to = true) {
+        bool& system_restart = this->system_restart();
+        system_restart = to;
+        return system_restart;
+    }
+    virtual bool& system_restart() const {
+        return (bool&)system_restart_;
+    }
+
+    /// ...system_stop...
+    virtual bool& set_system_stop(const bool to = true) {
+        bool& system_stop = this->system_stop();
+        system_stop = to;
+        return system_stop;
+    }
+    virtual bool& system_stop() const {
+        return (bool&)system_stop_;
+    }
+
 protected:
-    bool power_on_;
+    bool power_on_, system_restart_, system_stop_;
     string_t power_on_request_, power_off_request_, power_request_;
     string_t power_on_response_, power_off_response_, power_unknown_response_;
+    string_t system_restart_request_, system_stop_request_;
 }; /// class maint
 typedef maint<> main;
 

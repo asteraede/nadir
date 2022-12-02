@@ -77,6 +77,242 @@ protected:
         return err;
     }
 
+    /// ...prepare_system_restart_response_from_request
+    virtual int prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        response.assign(request);
+        this->set_system_restart();
+        return err;
+    }
+    virtual int before_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_system_restart_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_system_stop_response_from_request
+    virtual int prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        response.assign(request);
+        this->set_system_stop();
+        return err;
+    }
+    virtual int before_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_system_stop_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_power_on_response_from_request
+    virtual int prepare_power_on_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        string_t &power_on_response = this->power_on_response();
+        response.assign(power_on_response);
+        this->set_power_on();
+        return err;
+    }
+    virtual int before_prepare_power_on_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_power_on_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_power_on_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_power_on_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_power_on_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_power_on_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_power_off_response_from_request
+    virtual int prepare_power_off_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        string_t &power_off_response = this->power_off_response();
+        response.assign(power_off_response);
+        this->set_power_off();
+        return err;
+    }
+    virtual int before_prepare_power_off_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_power_off_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_power_off_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_power_off_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_power_unknown_response_from_request
+    virtual int prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        string_t &power_unknown_response = this->power_unknown_response();
+        response.assign(power_unknown_response);
+        return err;
+    }
+    virtual int before_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_power_unknown_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_power_response_from_request
+    virtual int prepare_power_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        bool power_on = this->power_on();
+        string_t &power_on_response = this->power_on_response(),
+                 &power_off_response = this->power_off_response();
+
+        if ((power_on)) {
+            response.assign(power_on_response);
+        } else {
+            response.assign(power_off_response);
+        }
+        return err;
+    }
+    virtual int before_prepare_power_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_power_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_power_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_power_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_power_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_power_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
+    /// ...prepare_response_from_request
+    virtual int prepare_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        int unequal = 0;
+        string_t &power_on_request = this->power_on_request(), 
+                 &power_off_request = this->power_off_request(), 
+                 &power_request = this->power_request(),
+                 &system_restart_request = this->system_restart_request(),
+                 &system_stop_request = this->system_stop_request();
+
+        if (!(unequal = request.compare(power_request))) {
+            if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
+            } else {
+            }
+        } else {
+            if (!(unequal = request.compare(power_on_request))) {
+                if (!(err = all_prepare_power_on_response_from_request(response, request, argc, argv, env))) {
+                } else {
+                }
+            } else {
+                if (!(unequal = request.compare(power_off_request))) {
+                    if (!(err = all_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
+                    } else {
+                    }
+                } else {
+                    if (!(unequal = request.compare(system_restart_request))) {
+                        if (!(err = all_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                        if (!(unequal = request.compare(system_stop_request))) {
+                            if (!(err = all_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
+                            } else {
+                            }
+                        } else {
+                            if (!(err = all_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
+                            } else {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return err;
+    }
+    virtual int before_prepare_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_response_from_request(response, request, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_response_from_request(response, request, argc, argv, env);
+            if ((err2 = after_prepare_response_from_request(response, request, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+
     /// ...request_option...
     virtual int on_set_request_option
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
@@ -94,33 +330,11 @@ protected:
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         if ((optarg) && (optarg[0])) {
-            int unequal = 0;
-            bool power_on = this->power_on();
             string_t &response = this->response(),
-                     &power_on_response = this->power_on_response(), 
-                     &power_off_response = this->power_off_response(), 
-                     &power_unknown_response = this->power_unknown_response(), 
-                     &power_on_request = this->power_on_request(), 
-                     &power_off_request = this->power_off_request(), 
-                     &power_request = this->power_request(), 
                      &request = this->request();
 
-            if (!(unequal = request.compare(power_request))) {
-                if ((power_on)) {
-                    response.assign(power_on_response);
-                } else {
-                    response.assign(power_off_response);
-                }
+            if (!(err = all_prepare_response_from_request(response, request, argc, argv, env))) {
             } else {
-                if (!(unequal = request.compare(power_on_request))) {
-                    response.assign(power_on_response);
-                } else {
-                    if (!(unequal = request.compare(power_off_request))) {
-                        response.assign(power_off_response);
-                    } else {
-                        response.assign(power_unknown_response);
-                    }
-                }
             }
         } else {
         }

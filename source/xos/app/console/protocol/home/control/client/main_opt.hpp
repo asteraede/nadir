@@ -67,16 +67,46 @@
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_RESULT, \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_C}, \
 
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPT "restart"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG_RESULT 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG ""
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTUSE "system restart"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_S "R"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_C 'R'
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTION \
+   {XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_C}, \
+
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPT "stop"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG_RESULT 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG ""
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTUSE "system stop"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_S "T"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_C 'T'
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTION \
+   {XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG_REQUIRED, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG_RESULT, \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_C}, \
+
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_OPTIONS_CHARS_EXTEND \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_ON_OPTVAL_S \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OFF_OPTVAL_S \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_S \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_S \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_S \
 
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_OPTIONS_OPTIONS_EXTEND \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_ON_OPTION \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OFF_OPTION \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTION \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTION \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTION \
  
 ///////////////////////////////////////////////////////////////////////
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_OPTIONS_CHARS \
@@ -148,6 +178,13 @@ protected:
         return err;
     }
 
+    /// ...request_option...
+    virtual int on_request_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        return err;
+    }
+
     /// ...power_on_option...
     virtual int on_set_power_on_option
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
@@ -158,6 +195,9 @@ protected:
     virtual int on_power_on_option_set
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
+        if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
+        } else {
+        }
         return err;
     }
     virtual int on_power_on_option
@@ -194,6 +234,9 @@ protected:
     virtual int on_power_off_option_set
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
+        if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
+        } else {
+        }
         return err;
     }
     virtual int on_power_off_option
@@ -230,6 +273,9 @@ protected:
     virtual int on_power_option_get
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
+        if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
+        } else {
+        }
         return err;
     }
     virtual int on_set_power_option
@@ -327,6 +373,84 @@ protected:
         return chars;
     }
 
+    /// ...system_restart_option...
+    virtual int on_set_system_restart_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        this->set_request(this->system_restart_request());
+        return err;
+    }
+    virtual int on_system_restart_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
+        } else {
+        }
+        return err;
+    }
+    virtual int on_system_restart_option
+    (int optval, const char_t* optarg, const char_t* optname,
+     int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_set_system_restart_option(optarg, optind, argc, argv, env))) {
+            if (!(err = on_system_restart_option_set(optarg, optind, argc, argv, env))) {
+                if (!(err = this->set_output_request_run(argc, argv, env))) {
+                    if (!(err = this->output_request_run_set(argc, argv, env))) {
+                    } else {
+                    }
+                } else {
+                }
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual const char_t* system_restart_option_usage(const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTUSE;
+        optarg = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTARG;
+        return chars;
+    }
+
+    /// ...system_stop_option...
+    virtual int on_set_system_stop_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        this->set_request(this->system_stop_request());
+        return err;
+    }
+    virtual int on_system_stop_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
+        } else {
+        }
+        return err;
+    }
+    virtual int on_system_stop_option
+    (int optval, const char_t* optarg, const char_t* optname,
+     int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = on_set_system_stop_option(optarg, optind, argc, argv, env))) {
+            if (!(err = on_system_stop_option_set(optarg, optind, argc, argv, env))) {
+                if (!(err = this->set_output_request_run(argc, argv, env))) {
+                    if (!(err = this->output_request_run_set(argc, argv, env))) {
+                    } else {
+                    }
+                } else {
+                }
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+    virtual const char_t* system_stop_option_usage(const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTUSE;
+        optarg = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTARG;
+        return chars;
+    }
+
     /// ...option...
     virtual int on_option
     (int optval, const char_t* optarg, const char_t* optname,
@@ -342,6 +466,13 @@ protected:
             break;
         case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_C:
             err = this->on_power_option(optval, optarg, optname, optind, argc, argv, env);
+            break;
+
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_C:
+            err = this->on_system_restart_option(optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_C:
+            err = this->on_system_stop_option(optval, optarg, optname, optind, argc, argv, env);
             break;
 
         default:
@@ -361,6 +492,13 @@ protected:
             break;
         case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_C:
             chars = this->power_option_usage(optarg, longopt);
+            break;
+
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_RESTART_OPTVAL_C:
+            chars = this->system_restart_option_usage(optarg, longopt);
+            break;
+        case XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_STOP_OPTVAL_C:
+            chars = this->system_stop_option_usage(optarg, longopt);
             break;
 
         default:
