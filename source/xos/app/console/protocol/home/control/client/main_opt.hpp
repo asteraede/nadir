@@ -55,9 +55,11 @@
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_RESULT 0
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_ON "on"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_OFF "off"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_STATE "state"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG "[{ " \
     XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_ON " | " \
-    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_OFF " }]"
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_OFF " | " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_STATE " }]"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTUSE "power on/off or state"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_S "W::"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTVAL_C 'W'
@@ -96,7 +98,13 @@
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPT "system"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_OPTIONAL
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_RESULT 0
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG "[{ restart | stop }]"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_RESTART "restart"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_STOP "stop"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_INFO "info"
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG "[{ " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_RESTART " | " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_STOP" | " \
+    XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_INFO " }]"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTUSE "system restart/stop or info"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTVAL_S "S::"
 #define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTVAL_C 'S'
@@ -303,12 +311,6 @@ protected:
                   (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_ON))) {
                 if (!(err = on_set_power_on_option(optarg, optind, argc, argv, env))) {
                     if (!(err = on_power_on_option_set(optarg, optind, argc, argv, env))) {
-                        if (!(err = this->set_output_request_run(argc, argv, env))) {
-                            if (!(err = this->output_request_run_set(argc, argv, env))) {
-                            } else {
-                            }
-                        } else {
-                        }
                     } else {
                     }
                 } else {
@@ -318,28 +320,32 @@ protected:
                       (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_OFF))) {
                     if (!(err = on_set_power_off_option(optarg, optind, argc, argv, env))) {
                         if (!(err = on_power_off_option_set(optarg, optind, argc, argv, env))) {
-                            if (!(err = this->set_output_request_run(argc, argv, env))) {
-                                if (!(err = this->output_request_run_set(argc, argv, env))) {
-                                } else {
-                                }
-                            } else {
-                            }
                         } else {
                         }
                     } else {
                     }
                 } else {
+                    if (!(unequal = opt.uncased_compare
+                          (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTARG_STATE))) {
+                        if (!(err = on_get_power_option(optarg, optind, argc, argv, env))) {
+                            if (!(err = on_power_option_get(optarg, optind, argc, argv, env))) {
+                            } else {
+                            }
+                        } else {
+                        }
+                    } else {
+                        if (!(err = on_get_power_option(optarg, optind, argc, argv, env))) {
+                            if (!(err = on_power_option_get(optarg, optind, argc, argv, env))) {
+                            } else {
+                            }
+                        } else {
+                        }
+                    }
                 }
             }
         } else {
             if (!(err = on_get_power_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_power_option_get(optarg, optind, argc, argv, env))) {
-                    if (!(err = this->set_output_request_run(argc, argv, env))) {
-                        if (!(err = this->output_request_run_set(argc, argv, env))) {
-                        } else {
-                        }
-                    } else {
-                    }
                 } else {
                 }
             } else {
@@ -362,6 +368,12 @@ protected:
         if ((optarg) && (optarg[0])) {
             if (!(err = on_set_power_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_power_option_set(optarg, optind, argc, argv, env))) {
+                    if (!(err = this->set_output_request_run(argc, argv, env))) {
+                        if (!(err = this->output_request_run_set(argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                    }
                 } else {
                 }
             } else {
@@ -485,6 +497,44 @@ protected:
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         if ((optarg) && (optarg[0])) {
+            string_t opt(optarg);
+            int unequal = 0;
+            if (!(unequal = opt.uncased_compare
+                  (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_RESTART))) {
+                if (!(err = on_set_system_restart_option(optarg, optind, argc, argv, env))) {
+                    if (!(err = on_system_restart_option_set(optarg, optind, argc, argv, env))) {
+                    } else {
+                    }
+                } else {
+                }
+            } else {
+                if (!(unequal = opt.uncased_compare
+                      (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_STOP))) {
+                    if (!(err = on_set_system_stop_option(optarg, optind, argc, argv, env))) {
+                        if (!(err = on_system_stop_option_set(optarg, optind, argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                    }
+                } else {
+                    if (!(unequal = opt.uncased_compare
+                          (XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_SYSTEM_INFO_OPTARG_INFO))) {
+                        if (!(err = on_get_system_info_option(optarg, optind, argc, argv, env))) {
+                            if (!(err = on_system_info_option_get(optarg, optind, argc, argv, env))) {
+                            } else {
+                            }
+                        } else {
+                        }
+                    } else {
+                        if (!(err = on_get_system_info_option(optarg, optind, argc, argv, env))) {
+                            if (!(err = on_system_info_option_get(optarg, optind, argc, argv, env))) {
+                            } else {
+                            }
+                        } else {
+                        }
+                    }
+                }
+            }
         } else {
         }
         return err;
@@ -504,6 +554,12 @@ protected:
         if ((optarg) && (optarg[0])) {
             if (!(err = on_set_system_info_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_system_info_option_set(optarg, optind, argc, argv, env))) {
+                    if (!(err = this->set_output_request_run(argc, argv, env))) {
+                        if (!(err = this->output_request_run_set(argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                    }
                 } else {
                 }
             } else {
