@@ -22,7 +22,9 @@
 #define XOS_APP_CONSOLE_BASE_MAIN_HPP
 
 #include "xos/app/console/base/main_opt.hpp"
+#include "xos/io/string/reader.hpp"
 #include "xos/io/crt/file/reader.hpp"
+#include "xos/io/hex/read_to_string.hpp"
 
 namespace xos {
 namespace app {
@@ -68,6 +70,12 @@ protected:
     typedef typename extends::in_reader_t in_reader_t;
     typedef typename extends::out_writer_t out_writer_t;
     typedef typename extends::err_writer_t err_writer_t;
+
+    typedef xos::io::string::readert<xos::base::string, xos::io::reader> string_reader_t;
+    typedef typename string_reader_t::string_t reader_string_t;
+    typedef typename reader_string_t::char_t reader_char_t;
+    typedef xos::io::hex::read_to_stringt<string_t> hex_read_to_string_t;
+    typedef xos::io::hex::reader_to hex_reader_t;
 
     /// ...run
     int (derives::*run_)(int argc, char_t** argv, char_t** env);
@@ -209,6 +217,24 @@ protected:
         }
         return err;
     }
+    virtual int hex_string_on_set_string_message_option(string_t& message, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            reader_string_t string(optarg);
+            const reader_char_t *chars = 0;
+            size_t length = 0;
+            
+            if ((chars = string.has_chars(length))) {
+                string_reader_t reader(string);
+
+                if (!(err = hex_decode_source_to_string(message, reader))) {
+                } else {
+                }
+            } else {
+            }
+        }
+        return err;
+    }
     virtual int file_on_set_string_message_option(string_t& message, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
         int err = 0;
         if ((optarg) && (optarg[0])) {
@@ -231,6 +257,25 @@ protected:
                             }
                             count += amount;
                         } while (0 < (amount = file.read(&c, 1)));
+                    }
+                    LOGGER_IS_LOGGED_INFO("...file.close(\""<< optarg <<"\")...");
+                    file.close();
+                }
+            }
+        }
+        return err;
+    }
+    virtual int hex_file_on_set_string_message_option(string_t& message, const char_t* optarg, int optind, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            if ((optarg) && (optarg[0])) {
+                xos::io::crt::file::reader file;
+    
+                LOGGER_IS_LOGGED_INFO("file.open(\""<< optarg <<"\")...");
+                if ((file.open(optarg))) {
+                    
+                    if (!(err = hex_decode_source_to_string(message, file))) {
+                    } else {
                     }
                     LOGGER_IS_LOGGED_INFO("...file.close(\""<< optarg <<"\")...");
                     file.close();
@@ -330,6 +375,29 @@ protected:
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
         int err = 0;
         set_quiet_output();
+        return err;
+    }
+
+    /// ...hex_decode_source_to_string
+    virtual int hex_decode_source_to_string(string_t& string, io::reader& source) {
+        int err = 0;
+        ssize_t count = 0, amount = 0;
+        byte_t byte = 0;
+
+        if (0 < (amount = source.read(&byte, 1))) {
+            hex_read_to_string_t to_string_reader(string);
+            hex_reader_t reader(to_string_reader, source);
+            
+            reader.on_begin(&byte, 1);
+            do {
+                if ((0 > (reader.on_read(&byte, 1)))) {
+                    break;
+                }
+                count += amount;
+                amount = source.read(&byte, 1);
+            } while (0 < amount);
+            reader.on_end(&byte, 1);
+        }
         return err;
     }
 
