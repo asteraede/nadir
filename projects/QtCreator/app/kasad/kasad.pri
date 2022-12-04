@@ -13,48 +13,48 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: kasa.pri
+#   File: kasad.pri
 #
 # Author: $author$
-#   Date: 12/3/2022
+#   Date: 12/4/2022
 #
-# generic QtCreator project .pri file for framework nadir executable kasa
+# generic QtCreator project .pri file for framework nadir executable kasad
 ########################################################################
 
 ########################################################################
-# kasa
+# kasad
 
-# kasa TARGET
+# kasad TARGET
 #
-kasa_TARGET = kasa
+kasad_TARGET = kasad
 
-# kasa INCLUDEPATH
+# kasad INCLUDEPATH
 #
-kasa_INCLUDEPATH += \
+kasad_INCLUDEPATH += \
 $${nadir_INCLUDEPATH} \
 
-# kasa DEFINES
+# kasad DEFINES
 #
-kasa_DEFINES += \
+kasad_DEFINES += \
 $${nadir_DEFINES} \
 DEFAULT_LOGGING_LEVELS_ERROR \
 XOS_CONSOLE_MAIN_MAIN \
 
 ########################################################################
-# kasa OBJECTIVE_HEADERS
+# kasad OBJECTIVE_HEADERS
 #
-#kasa_OBJECTIVE_HEADERS += \
-#$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/base/main.hh \
+#kasad_OBJECTIVE_HEADERS += \
+#$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/main.hh \
 
-# kasa OBJECTIVE_SOURCES
+# kasad OBJECTIVE_SOURCES
 #
-#kasa_OBJECTIVE_SOURCES += \
-#$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/base/main.mm \
+#kasad_OBJECTIVE_SOURCES += \
+#$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/main.mm \
 
 ########################################################################
-# kasa HEADERS
+# kasad HEADERS
 #
-kasa_HEADERS += \
+kasad_HEADERS += \
 $${NADIR_SRC}/xos/io/string/reader.hpp \
 $${NADIR_SRC}/xos/io/hex/read_to_string.hpp \
 \
@@ -70,7 +70,6 @@ $${NADIR_SRC}/xos/app/console/protocol/home/control/base/power_main.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/base/main_opt.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/base/main.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/client/power_main_opt.hpp \
-$${NADIR_SRC}/xos/app/console/protocol/home/control/client/power_main.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/client/main_opt.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/client/main.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/server/power_main_opt.hpp \
@@ -85,24 +84,21 @@ $${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/client/main.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/server/main_opt.hpp \
 $${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/server/main.hpp \
 
-# kasa SOURCES
+# kasad SOURCES
 #
-kasa_SOURCES += \
-$${NADIR_SRC}/xos/io/string/reader.cpp \
-$${NADIR_SRC}/xos/io/hex/read_to_string.cpp \
-\
-$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/client/main_opt.cpp \
-$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/client/main.cpp \
+kasad_SOURCES += \
+$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/server/main_opt.cpp \
+$${NADIR_SRC}/xos/app/console/protocol/home/control/kasa/server/main.cpp \
 
 ########################################################################
-# kasa FRAMEWORKS
+# kasad FRAMEWORKS
 #
-kasa_FRAMEWORKS += \
+kasad_FRAMEWORKS += \
 $${nadir_FRAMEWORKS} \
 
-# kasa LIBS
+# kasad LIBS
 #
-kasa_LIBS += \
+kasad_LIBS += \
 $${nadir_LIBS} \
 
 ########################################################################
