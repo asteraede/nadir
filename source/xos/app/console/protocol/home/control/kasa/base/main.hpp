@@ -54,9 +54,14 @@ public:
     /// constructor / destructor
     maint()
     : run_(0),
+
       power_on_request_("{\"system\":{\"set_relay_state\":{\"state\":1}}}"), 
       power_off_request_("{\"system\":{\"set_relay_state\":{\"state\":0}}}"),
-      power_request_("{\"system\":{\"get_sysinfo\":null}}") {
+      power_request_("{\"system\":{\"get_sysinfo\":null}}"),
+
+      power_on_response_("{\"system\":{\"relay_state\":{\"state\":1}}}"), 
+      power_off_response_("{\"system\":{\"relay_state\":{\"state\":0}}}"),
+      power_response_("{\"system\":{\"sysinfo\":null}}") {
     }
     virtual ~maint() {
     }
@@ -96,15 +101,9 @@ protected:
     virtual int encrupt_output_request_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
         string_t& request = this->request();
-        const char_t* chars = 0;
-        size_t length = 0;
 
-        if ((chars = request.has_chars(length))) {
-            string_t& encrypted = encrypt_text(request);
-
-            if ((chars = encrypted.has_chars(length))) {
-                this->outxln(chars, length);
-            }
+        if (!(err = encrupt_output_message_run(request, argc, argv, env))) {
+        } else {
         }
         return err;
     }
@@ -119,15 +118,49 @@ protected:
         return err;
     }
 
-    /// ...request_option...
-    virtual int on_request_option_set
-    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+    /// ...output_response
+    int (derives::*output_response_run_)(int argc, char_t** argv, char_t** env);
+    virtual int output_response_run(int argc, char_t** argv, char_t** env) {
         int err = 0;
-        if (!(err = extends::on_request_option_set(optarg, optind, argc, argv, env))) {
-            if (!(err = set_encrupt_output_request_run(argc, argv, env))) {
-            } else {
-            }
+        if (output_response_run_) {
+            err = (this->*output_response_run_)(argc, argv, env);
         } else {
+            err = extends::output_response_run(argc, argv, env);
+        }
+        return err;
+    }
+    virtual int encrupt_output_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        string_t& response = this->response();
+
+        if (!(err = encrupt_output_message_run(response, argc, argv, env))) {
+        } else {
+        }
+        return err;
+    }
+    virtual int set_encrupt_output_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        output_response_run_ = &derives::encrupt_output_response_run;
+        return err;
+    }
+    virtual int unset_encrupt_output_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        output_response_run_ = 0;
+        return err;
+    }
+
+    /// ...encrupt_output_message_run
+    virtual int encrupt_output_message_run(const string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        const char_t* chars = 0;
+        size_t length = 0;
+
+        if ((chars = message.has_chars(length))) {
+            string_t& encrypted = encrypt_text(message);
+
+            if ((chars = encrypted.has_chars(length))) {
+                this->outxln(chars, length);
+            }
         }
         return err;
     }
@@ -219,6 +252,17 @@ protected:
         return (string_t&)power_request_;
     }
 
+    /// ...power...response
+    virtual string_t& power_on_response() const {
+        return (string_t&)power_on_response_;
+    }
+    virtual string_t& power_off_response() const {
+        return (string_t&)power_off_response_;
+    }
+    virtual string_t& power_response() const {
+        return (string_t&)power_response_;
+    }
+
     /// ...text
     virtual string_t& cipher_text() const {
         return (string_t&)cipher_text_;
@@ -229,6 +273,7 @@ protected:
 
 protected:
     string_t power_on_request_, power_off_request_, power_request_, cipher_text_, plain_text_;
+    string_t power_on_response_, power_off_response_, power_response_;
 }; /// class maint
 typedef maint<> main;
 

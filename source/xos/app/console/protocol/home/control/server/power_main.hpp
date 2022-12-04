@@ -13,15 +13,15 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.hpp
+///   File: power_main.hpp
 ///
 /// Author: $author$
-///   Date: 11/29/2022
+///   Date: 12/4/2022
 ///////////////////////////////////////////////////////////////////////
-#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_HPP
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_HPP
+#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_HPP
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_HPP
 
-#include "xos/app/console/protocol/home/control/server/main_opt.hpp"
+#include "xos/app/console/protocol/home/control/server/power_main_opt.hpp"
 
 namespace xos {
 namespace app {
@@ -31,16 +31,16 @@ namespace home {
 namespace control {
 namespace server {
 
-/// class maint
+/// class power_maint
 template 
-<class TExtends = xos::app::console::protocol::home::control::server::main_opt, 
+<class TExtends = xos::app::console::protocol::home::control::server::power_main_opt, 
  class TImplements = typename TExtends::implements>
 
-class exported maint: virtual public TImplements, public TExtends {
+class exported power_maint: virtual public TImplements, public TExtends {
 public:
     typedef TImplements implements;
     typedef TExtends extends;
-    typedef maint derives;
+    typedef power_maint derives;
 
     typedef typename extends::char_t char_t;
     typedef typename extends::end_char_t end_char_t;
@@ -51,12 +51,12 @@ public:
     typedef typename extends::file_t file_t;
 
     /// constructor / destructor
-    maint(): run_(0) {
+    power_maint(): run_(0) {
     }
-    virtual ~maint() {
+    virtual ~power_maint() {
     }
 private:
-    maint(const maint& copy) {
+    power_maint(const power_maint& copy) {
         throw exception(exception_unexpected);
     }
 
@@ -73,87 +73,6 @@ protected:
             err = (this->*run_)(argc, argv, env);
         } else {
             err = extends::run(argc, argv, env);
-        }
-        return err;
-    }
-
-    /// ...prepare_system_restart_response_from_request
-    virtual int prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        response.assign(request);
-        this->set_system_restart();
-        return err;
-    }
-    virtual int before_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int after_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int all_prepare_system_restart_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        if (!(err = before_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
-            int err2 = 0;
-            err = prepare_system_restart_response_from_request(response, request, argc, argv, env);
-            if ((err2 = after_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
-                if (!(err)) err = err2;
-            }
-        }
-        return err;
-    }
-
-    /// ...prepare_system_stop_response_from_request
-    virtual int prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        response.assign(request);
-        this->set_system_stop();
-        return err;
-    }
-    virtual int before_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int after_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int all_prepare_system_stop_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        if (!(err = before_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
-            int err2 = 0;
-            err = prepare_system_stop_response_from_request(response, request, argc, argv, env);
-            if ((err2 = after_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
-                if (!(err)) err = err2;
-            }
-        }
-        return err;
-    }
-
-    /// ...prepare_system_response_from_request
-    virtual int prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        string_t &system_response = this->system_response();
-        response.assign(system_response);
-        return err;
-    }
-    virtual int before_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int after_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int all_prepare_system_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        if (!(err = before_prepare_system_response_from_request(response, request, argc, argv, env))) {
-            int err2 = 0;
-            err = prepare_system_response_from_request(response, request, argc, argv, env);
-            if ((err2 = after_prepare_system_response_from_request(response, request, argc, argv, env))) {
-                if (!(err)) err = err2;
-            }
         }
         return err;
     }
@@ -208,33 +127,6 @@ protected:
             int err2 = 0;
             err = prepare_power_off_response_from_request(response, request, argc, argv, env);
             if ((err2 = after_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
-                if (!(err)) err = err2;
-            }
-        }
-        return err;
-    }
-
-    /// ...prepare_power_unknown_response_from_request
-    virtual int prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        string_t &power_unknown_response = this->power_unknown_response();
-        response.assign(power_unknown_response);
-        return err;
-    }
-    virtual int before_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int after_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        return err;
-    }
-    virtual int all_prepare_power_unknown_response_from_request(string_t &response, const string_t &request, int argc, char_t** argv, char_t** env) {
-        int err = 0;
-        if (!(err = before_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
-            int err2 = 0;
-            err = prepare_power_unknown_response_from_request(response, request, argc, argv, env);
-            if ((err2 = after_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
                 if (!(err)) err = err2;
             }
         }
@@ -337,10 +229,7 @@ protected:
         int unequal = 0;
         string_t &power_on_request = this->power_on_request(), 
                  &power_off_request = this->power_off_request(), 
-                 &power_request = this->power_request(),
-                 &system_restart_request = this->system_restart_request(),
-                 &system_stop_request = this->system_stop_request(),
-                 &system_request = this->system_request();
+                 &power_request = this->power_request();
 
         if (!(unequal = request.compare(power_request))) {
             if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
@@ -356,27 +245,9 @@ protected:
                     if (!(err = all_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
                     } else {
                     }
-                } else {
-                    if (!(unequal = request.compare(system_restart_request))) {
-                        if (!(err = all_prepare_system_restart_response_from_request(response, request, argc, argv, env))) {
-                        } else {
-                        }
+                } else {           
+                    if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
                     } else {
-                        if (!(unequal = request.compare(system_stop_request))) {
-                            if (!(err = all_prepare_system_stop_response_from_request(response, request, argc, argv, env))) {
-                            } else {
-                            }
-                        } else {
-                            if (!(unequal = request.compare(system_request))) {
-                                if (!(err = all_prepare_system_response_from_request(response, request, argc, argv, env))) {
-                                } else {
-                                }
-                            } else {
-                                if (!(err = all_prepare_power_unknown_response_from_request(response, request, argc, argv, env))) {
-                                } else {
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -420,8 +291,8 @@ protected:
     }
 
 protected:
-}; /// class maint
-typedef maint<> main;
+}; /// class power_maint
+typedef power_maint<> power_main;
 
 } /// namespace server
 } /// namespace control
@@ -431,4 +302,4 @@ typedef maint<> main;
 } /// namespace app
 } /// namespace xos
 
-#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_HPP
+#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_HPP

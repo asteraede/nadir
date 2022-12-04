@@ -196,8 +196,8 @@ protected:
         if ((optarg) && (optarg[0])) {
             if (!(err = on_set_request_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_request_option_set(optarg, optind, argc, argv, env))) {
-                    if (!(err = this->set_output_response_run(argc, argv, env))) {
-                        if (!(err = this->output_response_run_set(argc, argv, env))) {
+                    if (!(err = this->set_process_request_run(argc, argv, env))) {
+                        if (!(err = this->process_request_run_set(argc, argv, env))) {
                         } else {
                         }
                     } else {

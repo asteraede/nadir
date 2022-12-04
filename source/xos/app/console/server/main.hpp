@@ -87,6 +87,19 @@ protected:
         }
         return err;
     }
+    /// ...request_option...
+    virtual int on_set_request_option
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            string_t& request = this->request();
+            if (!(err = this->on_set_string_message_option(request, optarg, optind, argc, argv, env))) {
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
 
 protected:
 }; /// class maint

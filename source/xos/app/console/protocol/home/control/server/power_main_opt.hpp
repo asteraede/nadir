@@ -13,34 +13,34 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main_opt.hpp
+///   File: power_main_opt.hpp
 ///
 /// Author: $author$
-///   Date: 12/3/2022
+///   Date: 12/4/2022
 ///////////////////////////////////////////////////////////////////////
-#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPT_HPP
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPT_HPP
+#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPT_HPP
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPT_HPP
 
-#include "xos/app/console/protocol/home/control/client/power_main.hpp"
-#include "xos/app/console/protocol/home/control/kasa/base/main.hpp"
-
-///////////////////////////////////////////////////////////////////////
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_CHARS_EXTEND \
-
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_OPTIONS_EXTEND \
+#include "xos/app/console/protocol/home/control/server/main_opt.hpp"
+#include "xos/app/console/protocol/home/control/base/power_main.hpp"
 
 ///////////////////////////////////////////////////////////////////////
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_CHARS \
-   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_CHARS_EXTEND \
-   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTIONS_CHARS
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_CHARS_EXTEND \
 
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_OPTIONS \
-   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_OPTIONS_EXTEND \
-   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTIONS_OPTIONS
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_OPTIONS_EXTEND \
 
 ///////////////////////////////////////////////////////////////////////
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_ARGS 0
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_ARGV 0,
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_CHARS \
+   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_CHARS_EXTEND \
+   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_OPTIONS_CHARS
+
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_OPTIONS \
+   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_OPTIONS_EXTEND \
+   XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_MAIN_OPTIONS_OPTIONS
+
+///////////////////////////////////////////////////////////////////////
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_ARGS 0
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_ARGV 0,
 
 namespace xos {
 namespace app {
@@ -48,26 +48,20 @@ namespace console {
 namespace protocol {
 namespace home {
 namespace control {
-namespace kasa {
-namespace client {
+namespace server {
 
-/// class main_optt
+/// class power_main_optt
 template 
-<class TExtends = xos::app::console::protocol::home::control::kasa::base::maint
- <xos::app::console::protocol::home::control::kasa::base::main_optt
- <xos::app::console::protocol::home::control::client::power_maint
- <xos::app::console::protocol::home::control::client::power_main_optt
+<class TExtends = xos::app::console::protocol::home::control::server::main_optt
  <xos::app::console::protocol::home::control::base::power_maint
- <xos::app::console::protocol::home::control::base::power_main_optt
- <xos::app::console::client::maint
- <xos::app::console::client::main_optt<> > > > > > > >, 
+ <xos::app::console::protocol::home::control::base::power_main_optt<> > >, 
  class TImplements = typename TExtends::implements>
 
-class exported main_optt: virtual public TImplements, public TExtends {
+class exported power_main_optt: virtual public TImplements, public TExtends {
 public:
     typedef TImplements implements;
     typedef TExtends extends;
-    typedef main_optt derives;
+    typedef power_main_optt derives;
 
     typedef typename extends::char_t char_t;
     typedef typename extends::end_char_t end_char_t;
@@ -78,12 +72,12 @@ public:
     typedef typename extends::file_t file_t;
 
     /// constructor / destructor
-    main_optt(): run_(0) {
+    power_main_optt(): run_(0) {
     }
-    virtual ~main_optt() {
+    virtual ~power_main_optt() {
     }
 private:
-    main_optt(const main_optt& copy) {
+    power_main_optt(const power_main_optt& copy) {
         throw exception(exception_unexpected);
     }
 
@@ -125,9 +119,9 @@ protected:
         return chars;
     }
     virtual const char_t* options(const struct option*& longopts) {
-        static const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_CHARS;
+        static const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_CHARS;
         static struct option optstruct[]= {
-            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPTIONS_OPTIONS
+            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPTIONS_OPTIONS
             {0, 0, 0, 0}};
         longopts = optstruct;
         return chars;
@@ -135,20 +129,19 @@ protected:
 
     /// ...argument...
     virtual const char_t* arguments(const char_t**& argv) {
-        static const char_t* _args = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_ARGS;
+        static const char_t* _args = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_ARGS;
         static const char_t* _argv[] = {
-            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_ARGV
+            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_ARGV
             0};
         argv = _argv;
         return _args;
     }
 
 protected:
-}; /// class main_optt
-typedef main_optt<> main_opt;
+}; /// class power_main_optt
+typedef power_main_optt<> power_main_opt;
 
-} /// namespace client
-} /// namespace kasa
+} /// namespace server
 } /// namespace control
 } /// namespace home
 } /// namespace protocol
@@ -156,4 +149,4 @@ typedef main_optt<> main_opt;
 } /// namespace app
 } /// namespace xos
 
-#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_CLIENT_MAIN_OPT_HPP
+#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_SERVER_POWER_MAIN_OPT_HPP

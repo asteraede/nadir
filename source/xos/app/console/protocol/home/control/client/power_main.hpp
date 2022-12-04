@@ -13,15 +13,15 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.hpp
+///   File: power_main.hpp
 ///
 /// Author: $author$
-///   Date: 12/3/2022
+///   Date: 12/4/2022
 ///////////////////////////////////////////////////////////////////////
-#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_SERVER_MAIN_HPP
-#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_SERVER_MAIN_HPP
+#ifndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_POWER_MAIN_HPP
+#define XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_POWER_MAIN_HPP
 
-#include "xos/app/console/protocol/home/control/kasa/server/main_opt.hpp"
+#include "xos/app/console/protocol/home/control/client/power_main_opt.hpp"
 
 namespace xos {
 namespace app {
@@ -29,19 +29,18 @@ namespace console {
 namespace protocol {
 namespace home {
 namespace control {
-namespace kasa {
-namespace server {
+namespace client {
 
-/// class maint
+/// class power_maint
 template 
-<class TExtends = xos::app::console::protocol::home::control::kasa::server::main_opt, 
+<class TExtends = xos::app::console::protocol::home::control::client::power_main_opt, 
  class TImplements = typename TExtends::implements>
 
-class exported maint: virtual public TImplements, public TExtends {
+class exported power_maint: virtual public TImplements, public TExtends {
 public:
     typedef TImplements implements;
     typedef TExtends extends;
-    typedef maint derives;
+    typedef power_maint derives;
 
     typedef typename extends::char_t char_t;
     typedef typename extends::end_char_t end_char_t;
@@ -52,12 +51,12 @@ public:
     typedef typename extends::file_t file_t;
 
     /// constructor / destructor
-    maint(): run_(0) {
+    power_maint(): run_(0) {
     }
-    virtual ~maint() {
+    virtual ~power_maint() {
     }
 private:
-    maint(const maint& copy) {
+    power_maint(const power_maint& copy) {
         throw exception(exception_unexpected);
     }
 
@@ -78,25 +77,11 @@ protected:
         return err;
     }
 
-    /// ...request_option...
-    virtual int on_request_option_set
-    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
-        int err = 0;
-        if (!(err = extends::on_request_option_set(optarg, optind, argc, argv, env))) {
-            if (!(err = this->set_encrupt_output_response_run(argc, argv, env))) {
-            } else {
-            }
-        } else {
-        }
-        return err;
-    }
-
 protected:
-}; /// class maint
-typedef maint<> main;
+}; /// class power_maint
+typedef power_maint<> power_main;
 
-} /// namespace server
-} /// namespace kasa
+} /// namespace client
 } /// namespace control
 } /// namespace home
 } /// namespace protocol
@@ -104,4 +89,4 @@ typedef maint<> main;
 } /// namespace app
 } /// namespace xos
 
-#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_KASA_SERVER_MAIN_HPP
+#endif /// ndef XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_POWER_MAIN_HPP

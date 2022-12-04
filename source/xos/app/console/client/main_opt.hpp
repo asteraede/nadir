@@ -196,11 +196,23 @@ protected:
         if ((optarg) && (optarg[0])) {
             if (!(err = on_set_response_option(optarg, optind, argc, argv, env))) {
                 if (!(err = on_response_option_set(optarg, optind, argc, argv, env))) {
+                    if (!(err = this->set_process_response_run(argc, argv, env))) {
+                        if (!(err = this->process_response_run_set(argc, argv, env))) {
+                        } else {
+                        }
+                    } else {
+                    }
                 } else {
                 }
             } else {
             }
         } else {
+            if (!(err = this->set_output_response_run(argc, argv, env))) {
+                if (!(err = this->output_response_run_set(argc, argv, env))) {
+                } else {
+                }
+            } else {
+            }
         }
         return err;
     }

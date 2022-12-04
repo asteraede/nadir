@@ -53,6 +53,7 @@ public:
     /// constructor / destructor
     maint()
     : run_(0), 
+      process_response_run_(0), 
       output_request_run_(0),
       output_response_run_(0),
       verbose_output_(false),
@@ -86,6 +87,100 @@ protected:
         } else {
             err = extends::run(argc, argv, env);
         }
+        return err;
+    }
+
+    /// ...process_request_run
+    int (derives::*process_request_run_)(int argc, char_t** argv, char_t** env);
+    virtual int process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (process_request_run_) {
+            err = (this->*process_request_run_)(argc, argv, env);
+        } else {
+            err = default_process_request_run(argc, argv, env);
+        }
+        return err;
+    }
+    virtual int default_process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = err = all_output_response_run(argc, argv, env))) {
+        } else {
+        }
+        return err;
+    }
+    virtual int before_process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_process_request_run(argc, argv, env))) {
+            int err2 = 0;
+            err = process_request_run(argc, argv, env);
+            if ((err2 = after_process_request_run(argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+    virtual int set_process_request_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        run_ = &derives::all_process_request_run;
+        return err;
+    }
+    virtual int process_request_run_set(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+
+    /// ...process_response_run
+    int (derives::*process_response_run_)(int argc, char_t** argv, char_t** env);
+    virtual int process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (process_response_run_) {
+            err = (this->*process_response_run_)(argc, argv, env);
+        } else {
+            err = default_process_response_run(argc, argv, env);
+        }
+        return err;
+    }
+    virtual int default_process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = err = all_output_response_run(argc, argv, env))) {
+        } else {
+        }
+        return err;
+    }
+    virtual int before_process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_process_response_run(argc, argv, env))) {
+            int err2 = 0;
+            err = process_response_run(argc, argv, env);
+            if ((err2 = after_process_response_run(argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+    virtual int set_process_response_run(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        run_ = &derives::all_process_response_run;
+        return err;
+    }
+    virtual int process_response_run_set(int argc, char_t** argv, char_t** env) {
+        int err = 0;
         return err;
     }
 

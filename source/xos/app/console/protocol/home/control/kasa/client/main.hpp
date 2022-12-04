@@ -78,6 +78,19 @@ protected:
         return err;
     }
 
+    /// ...request_option...
+    virtual int on_request_option_set
+    (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if (!(err = extends::on_request_option_set(optarg, optind, argc, argv, env))) {
+            if (!(err = this->set_encrupt_output_request_run(argc, argv, env))) {
+            } else {
+            }
+        } else {
+        }
+        return err;
+    }
+
     /// ...power_on_option...
     virtual int on_set_power_on_option
     (const char_t* optarg, int optind, int argc, char_t**argv, char_t**env) {
