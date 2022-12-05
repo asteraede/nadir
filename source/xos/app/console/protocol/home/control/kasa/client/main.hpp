@@ -34,7 +34,7 @@ namespace client {
 
 /// class maint
 template 
-<class TExtends = xos::app::console::protocol::home::control::kasa::client::main_opt, 
+<class TExtends = xos::app::console::protocol::home::control::kasa::client::main_optt<>, 
  class TImplements = typename TExtends::implements>
 
 class exported maint: virtual public TImplements, public TExtends {

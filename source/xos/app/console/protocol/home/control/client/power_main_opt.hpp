@@ -320,9 +320,9 @@ protected:
         return chars;
     }
     virtual const char_t* options(const struct option*& longopts) {
-        static const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_OPTIONS_CHARS;
+        static const char_t* chars = XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTIONS_CHARS;
         static struct option optstruct[]= {
-            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_OPTIONS_OPTIONS
+            XOS_APP_CONSOLE_PROTOCOL_HOME_CONTROL_CLIENT_MAIN_POWER_OPTIONS_OPTIONS
             {0, 0, 0, 0}};
         longopts = optstruct;
         return chars;
