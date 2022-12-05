@@ -21,7 +21,7 @@
 #ifndef XOS_APP_CONSOLE_BASE_MAIN_OPT_HPP
 #define XOS_APP_CONSOLE_BASE_MAIN_OPT_HPP
 
-#include "xos/app/console/version/main.hpp"
+#include "xos/app/console/nadir/version/main.hpp"
 
 #define XOS_APP_CONSOLE_BASE_MAIN_FILE_INPUT_OPT "file-input"
 #define XOS_APP_CONSOLE_BASE_MAIN_FILE_INPUT_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE

@@ -231,21 +231,29 @@ protected:
                  &power_off_request = this->power_off_request(), 
                  &power_request = this->power_request();
 
+        LOGGER_IS_LOGGED_INFO("...request = \"" << request << "\"");
+        LOGGER_IS_LOGGED_INFO("!(unequal = request.compare(\"" << power_request << "\"))...");
         if (!(unequal = request.compare(power_request))) {
+            LOGGER_IS_LOGGED_INFO("!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))...");
             if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
             } else {
             }
         } else {
+            LOGGER_IS_LOGGED_INFO("!(unequal = request.compare(\"" << power_on_request << "\"))...");
             if (!(unequal = request.compare(power_on_request))) {
+                LOGGER_IS_LOGGED_INFO("!(err = all_prepare_power_on_response_from_request(response, request, argc, argv, env))...");
                 if (!(err = all_prepare_power_on_response_from_request(response, request, argc, argv, env))) {
                 } else {
                 }
             } else {
+                LOGGER_IS_LOGGED_INFO("!(unequal = request.compare(\"" << power_off_request << "\"))...");
                 if (!(unequal = request.compare(power_off_request))) {
+                    LOGGER_IS_LOGGED_INFO("!(err = all_prepare_power_off_response_from_request(response, request, argc, argv, env))...");
                     if (!(err = all_prepare_power_off_response_from_request(response, request, argc, argv, env))) {
                     } else {
                     }
                 } else {           
+                    LOGGER_IS_LOGGED_INFO("!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))...");
                     if (!(err = all_prepare_power_response_from_request(response, request, argc, argv, env))) {
                     } else {
                     }
