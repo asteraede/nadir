@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2020 $organization$
+/// Copyright (c) 1988-2022 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,31 +13,28 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.cpp
+///   File: main_opt.cpp
 ///
 /// Author: $author$
-///   Date: 4/25/2020
+///   Date: 12/13/2022
 ///////////////////////////////////////////////////////////////////////
-#include "xos/app/console/version/main.hpp"
+#include "xos/app/console/os/main_opt.hpp"
 
-#ifdef XOS_CONSOLE_MAIN_MAIN
-#include "xos/console/main_main.cpp"
-#ifndef XOS_APP_CONSOLE_VERSION_MAIN_INSTANCE
-#define XOS_APP_CONSOLE_VERSION_MAIN_INSTANCE
-#endif /// ndef XOS_APP_CONSOLE_VERSION_MAIN_INSTANCE
-#endif /// def XOS_CONSOLE_MAIN_MAIN
+#if !defined(XOS_APP_CONSOLE_OS_MAIN_OPT_INSTANCE)
+///#define XOS_APP_CONSOLE_OS_MAIN_OPT_INSTANCE
+#endif /// !defined(XOS_APP_CONSOLE_OS_MAIN_OPT_NSTANCE)
 
 namespace xos {
 namespace app {
 namespace console {
-namespace version {
+namespace os {
 
-/// class maint
-#ifdef XOS_APP_CONSOLE_VERSION_MAIN_INSTANCE
-static main the_main;
-#endif /// def XOS_APP_CONSOLE_VERSION_MAIN_INSTANCE
+/// class main_opt
+#if defined(XOS_APP_CONSOLE_OS_MAIN_OPT_INSTANCE)
+static main_opt the_main_opt;
+#endif /// defined(XOS_APP_CONSOLE_OS_MAIN_OPT_INSTANCE)
 
-} /// namespace version
+} /// namespace os
 } /// namespace console
 } /// namespace app
 } /// namespace xos
